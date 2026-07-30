@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athena Practice</title>
+
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    width:600px;
+    margin:40px auto;
+
+}
+
+a{
+	display:block;
+	margin-top:20px;
+	color:blue;
+	font-size:18px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    font-size:16px;
+}
+
+button{
+    padding:10px 20px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#result{
+    margin-top:20px;
+    font-weight:bold;
+}
+</style>
+
+</head>
+<body bgcolor = "#dfe6e9">
+
+<h2>Practice Database Insert</h2>
+
+<label>Name</label>
+<input type="text" id="tname">
+
+<label>Description</label>
+<input type="text" id="tdesc">
+
+<button onclick="saveRecord()">Submit</button>
+
+<div id="result"></div>
+
+<script>
+
+const API_URL =
+"https://7f6zejkel6.execute-api.us-east-1.amazonaws.com/default/lambdaTest";
+
+async function saveRecord(){
+
+    const tname = document.getElementById("tname").value;
+    const tdesc = document.getElementById("tdesc").value;
+
+    const response = await fetch(API_URL,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            tname:tname,
+            tdesc:tdesc
+        })
+    });
+
+    const result = await response.json();
+
+    document.getElementById("result").innerHTML =
+        "Status: " + result.Status;
+
+// Clear the fields if the save was successful 
+document.getElementById("tname").value = "";
+document.getElementById("tdesc").value = "";
+
+document.getElementById("tname").focus();
+
+}
+
+</script>
+
+<a href="https://pizzicato5.s3.us-east-1.amazonaws.com/index0.html">Return to main page</a>
+<br>
+<font color ="#FF0000">
+<h2>Click on the following emails</h2>
+</font>
+
+<a href="mailto:daniel.daly@dalydiligence.com">Daniel Daly</a>
+<a href="mailto:james.daly@dalydiligence.com">James Daly</a>
+<a href="mailto:tom.daly@dalydiligence.com">Thomas Daly</a>
+<a href="mailto:will.daly@dalydiligence.com">William Daly</a>
+
+</body>
+</html>
