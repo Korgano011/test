@@ -61,36 +61,52 @@ button{
 const API_URL =
 "https://zex9c3vq53.execute-api.us-east-1.amazonaws.com/default/dynamoDiscount";
 
-async function saveRecord(){
+async function saveRecord() {
 
     const tname = document.getElementById("tname").value;
     const tdesc = document.getElementById("tdesc").value;
 
-    const response = await fetch(API_URL,{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            tname:tname,
-            tdesc:tdesc
-        })
-    });
+    if (!tname) {
+        document.getElementById("result").innerHTML =
+            "Please enter a name.";
+        return;
+    }
 
-    const result = await response.json();
+    try {
 
-    document.getElementById("result").innerHTML =
-        "Status: " + result.Status;
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                tname: tname,
+                tdesc: tdesc
+            })
+        });
 
-// Clear the fields if the save was successful
-document.getElementById("tname").value = "";
-document.getElementById("tdesc").value = "";
+        const result = await response.json();
 
-document.getElementById("tname").focus();
+        document.getElementById("result").innerHTML =
+            "Status: " + result.Status;
 
+        if (response.ok) {
+            document.getElementById("tname").value = "";
+            document.getElementById("tdesc").value = "";
+            document.getElementById("tname").focus();
+        }
+
+    } catch (error) {
+
+        console.error("Error:", error);
+
+        document.getElementById("result").innerHTML =
+            "Error: " + error.message;
+    }
 }
 
 </script>
+
 
 <a href="https://dynadbtest.s3.us-east-1.amazonaws.com/discount/index0.html">Return to main page</a>
 <br>
