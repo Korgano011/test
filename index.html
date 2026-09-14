@@ -63,7 +63,7 @@ const API_URL =
 
 async function saveRecord(){
 
-    const tname = document.getElementById("tname").value;
+    const tname = document.getElementById("name").value;
     const tdesc = document.getElementById("tdesc").value;
 
     const response = await fetch(API_URL,{
@@ -72,7 +72,7 @@ async function saveRecord(){
             "Content-Type":"application/json"
         },
         body:JSON.stringify({
-            tname:tname,
+            tname:name,
             tdesc:tdesc
         })
     });
@@ -83,10 +83,10 @@ async function saveRecord(){
         "Status: " + result.Status;
 
 // Clear the fields if the save was successful
-document.getElementById("tname").value = "";
+document.getElementById("name").value = "";
 document.getElementById("tdesc").value = "";
 
-document.getElementById("tname").focus();
+document.getElementById("name").focus();
 
 }
 
